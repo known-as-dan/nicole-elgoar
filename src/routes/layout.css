@@ -1,3 +1,81 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* Typography */
+:root {
+	--font-heading: 'Sora', system-ui, sans-serif;
+	--font-body: 'Outfit', system-ui, sans-serif;
+
+	/* Base palette */
+	--color-bg: #fafaf8;
+	--color-text: #1a1a1a;
+	--color-muted: #9b9b93;
+}
+
+body {
+	font-family: var(--font-body);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-heading);
+}
+
+/* Page item entrance animations */
+@keyframes page-item-enter {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.page-item-enter {
+	opacity: 0;
+	animation: page-item-enter 500ms ease-out forwards;
+	animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+.page-header-enter {
+	opacity: 0;
+	animation: page-item-enter 500ms ease-out forwards;
+}
+
+/* Nav glow pulse */
+@keyframes nav-glow-pulse {
+	0%,
+	100% {
+		opacity: 0.6;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.15);
+	}
+}
+
+.nav-glow {
+	animation: nav-glow-pulse 3s ease-in-out infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0ms !important;
+		animation-delay: 0ms !important;
+		transition-duration: 0ms !important;
+		transition-delay: 0ms !important;
+	}
+}
