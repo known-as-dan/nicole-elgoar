@@ -6,7 +6,7 @@
 
 <div class="mb-8 page-header-enter">
 	{#if collection.description}
-		<p class="mt-2 text-base opacity-70" style="color: var(--theme-text, var(--color-text))">
+		<p class="mt-2 text-base text-center opacity-70" style="color: var(--theme-text, var(--color-text))">
 			{collection.description}
 		</p>
 	{/if}

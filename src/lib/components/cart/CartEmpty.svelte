@@ -6,19 +6,15 @@
 </script>
 
 <div class="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-12">
-	<svg class="h-16 w-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-		<path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-		/>
+	<svg class="h-16 w-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+		<path d="M14 6a2 2 0 1 0 -4 0c0 1.667 .67 3 2 4h-.008l7.971 4.428a2 2 0 0 1 1.029 1.749v.823a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-.823a2 2 0 0 1 1.029 -1.749l7.971 -4.428" />
 	</svg>
 
 	<p class="text-center text-sm opacity-60">{m.cart_empty()}</p>
 
 	<a
 		href="/"
-		class="text-sm font-semibold text-[var(--theme-accent)] underline underline-offset-2 hover:opacity-80"
+		class="rounded text-sm font-semibold text-[var(--theme-accent)] underline underline-offset-2 transition-opacity duration-150 hover:opacity-80 active:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent)] focus-visible:ring-offset-2"
 		onclick={() => cart.close()}
 	>
 		{m.cart_continue_shopping()}

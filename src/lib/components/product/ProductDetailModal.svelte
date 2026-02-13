@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { getCart } from '$lib/stores/cart.svelte.js';
 	import { getAccessibility } from '$lib/stores/accessibility.svelte.js';
@@ -7,8 +7,9 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import QuantitySelector from '$lib/components/ui/QuantitySelector.svelte';
 	import * as m from '$lib/paraglide/messages';
+	import type { Product, ProductVariant } from '$lib/types/index.js';
 
-	let { product, onclose } = $props();
+	let { product, onclose }: { product: Product; onclose: () => void } = $props();
 
 	const cart = getCart();
 	const accessibility = getAccessibility();
@@ -21,13 +22,17 @@
 	let backImage = $derived(product.images[1] ? product.images[1] : product.images[0]);
 	let displayedImage = $derived(showingBack ? backImage : frontImage);
 
-	function getOptionValue(variant, name) {
+	function getOptionValue(variant: ProductVariant | undefined, name: string) {
 		if (!variant) return '';
 		const option = variant.selectedOptions.find((entry) => entry.name === name);
 		return option ? option.value : '';
 	}
 
-	function findMatchingVariant(variants, size, color) {
+	function findMatchingVariant(
+		variants: ProductVariant[],
+		size: string | null | undefined,
+		color: string | null | undefined
+	) {
 		for (const variant of variants) {
 			let isMatch = true;
 			for (const option of variant.selectedOptions) {
@@ -47,7 +52,7 @@
 		return undefined;
 	}
 
-	function handleKeydown(event) {
+	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			onclose();
 		}
@@ -69,7 +74,7 @@
 			quantity
 		);
 
-		announce(`Added ${quantity} ${product.title} to cart`);
+		announce(m.product_added_to_cart({ count: quantity, name: product.title }));
 		cart.open = true;
 		onclose();
 	}
@@ -83,7 +88,7 @@
 						const option = v.selectedOptions.find((o) => o.name === 'Size');
 						return option ? option.value : undefined;
 					})
-					.filter((value) => value !== undefined)
+					.filter((value): value is string => value !== undefined)
 			)
 		]
 	);
@@ -95,13 +100,13 @@
 						const option = v.selectedOptions.find((o) => o.name === 'Color');
 						return option ? option.value : undefined;
 					})
-					.filter((value) => value !== undefined)
+					.filter((value): value is string => value !== undefined)
 			)
 		]
 	);
 
-	let selectedSize = $state(null);
-	let selectedColor = $state(null);
+	let selectedSize = $state<string | null>(null);
+	let selectedColor = $state<string | null>(null);
 	let defaultSize = $derived(getOptionValue(initialVariant, 'Size'));
 	let defaultColor = $derived(getOptionValue(initialVariant, 'Color'));
 	let effectiveSize = $derived(selectedSize != null ? selectedSize : defaultSize);
@@ -110,7 +115,9 @@
 		findMatchingVariant(product.variants, effectiveSize, effectiveColor) || initialVariant
 	);
 	let maxQuantity = $derived(
-		selectedVariant && selectedVariant.quantityAvailable != null ? selectedVariant.quantityAvailable : 99
+		selectedVariant && selectedVariant.quantityAvailable != null
+			? selectedVariant.quantityAvailable
+			: 99
 	);
 	let isAvailable = $derived(!!(selectedVariant && selectedVariant.availableForSale));
 </script>
@@ -138,7 +145,7 @@
 	>
 		<!-- Close button -->
 		<button
-			class="absolute end-3 top-3 z-10 rounded-full p-2 transition-colors hover:bg-black/10 focus-visible:ring-2 focus-visible:ring-offset-2"
+			class="absolute end-3 top-3 z-10 rounded-full p-2 transition-all duration-150 hover:bg-black/10 active:scale-[0.85] focus-visible:ring-2 focus-visible:ring-offset-2"
 			aria-label={m.close()}
 			onclick={onclose}
 		>
@@ -147,27 +154,27 @@
 			</svg>
 		</button>
 
-		<div class="grid gap-6 p-6 sm:grid-cols-2">
+		<div class="grid gap-4 p-4 sm:gap-6 sm:p-6 sm:grid-cols-2">
 			<!-- Image -->
 			<button
-				class="aspect-[3/4] w-full overflow-hidden rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2"
+				class="flex items-center justify-center w-full max-h-[50vh] sm:max-h-none overflow-hidden rounded-lg transition-opacity duration-200 hover:opacity-80 active:opacity-70 focus-visible:ring-2 focus-visible:ring-offset-2"
 				onclick={() => (showingBack = !showingBack)}
 				aria-label={m.product_toggle_view()}
 			>
 				{#if displayedImage}
 					<img
 						src={displayedImage.url}
-						alt="{product.title} - {showingBack ? 'back' : 'front'} view"
+						alt={showingBack ? m.product_image_back({ name: product.title }) : m.product_image_front({ name: product.title })}
 						width={displayedImage.width}
 						height={displayedImage.height}
-						class="h-full w-full object-cover"
+						class="max-h-[50vh] sm:max-h-[70vh] w-auto h-auto max-w-full rounded-lg object-contain"
 					/>
 				{/if}
 			</button>
 
 			<!-- Details -->
-			<div class="flex flex-col gap-4">
-				<h2 class="text-2xl font-semibold" style="font-family: var(--font-heading)">
+			<div class="flex flex-col gap-3 sm:gap-4">
+				<h2 class="text-xl sm:text-2xl font-semibold" style="font-family: var(--font-heading)">
 					{product.title}
 				</h2>
 
@@ -190,15 +197,18 @@
 				<!-- Size selector -->
 				{#if sizeOptions.length > 1}
 					<fieldset>
-						<legend class="mb-1 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_size()}</legend>
+						<legend class="mb-1.5 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_size()}</legend>
 						<div class="flex flex-wrap gap-2">
 							{#each sizeOptions as size (size)}
 								<label
-									class={`cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors ${
-										selectedSize === size
-											? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 font-semibold'
-											: 'border-current/20 hover:border-current/40'
+									class={`cursor-pointer rounded-lg border-2 px-4 py-2.5 text-sm transition-all duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--theme-accent)] has-[:focus-visible]:ring-offset-2 ${
+										effectiveSize === size
+											? 'font-semibold shadow-sm'
+											: 'border-current/15 hover:border-current/40'
 									}`}
+									style={effectiveSize === size
+										? `background-color: var(--theme-accent); color: #fff; border-color: var(--theme-accent);`
+										: ''}
 								>
 									<input
 										type="radio"
@@ -218,15 +228,18 @@
 				<!-- Color selector -->
 				{#if colorOptions.length > 1}
 					<fieldset>
-						<legend class="mb-1 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_color()}</legend>
+						<legend class="mb-1.5 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_color()}</legend>
 						<div class="flex flex-wrap gap-2">
 							{#each colorOptions as color (color)}
 								<label
-									class={`cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors ${
-										selectedColor === color
-											? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 font-semibold'
-											: 'border-current/20 hover:border-current/40'
+									class={`cursor-pointer rounded-lg border-2 px-4 py-2.5 text-sm transition-all duration-150 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[var(--theme-accent)] has-[:focus-visible]:ring-offset-2 ${
+										effectiveColor === color
+											? 'font-semibold shadow-sm'
+											: 'border-current/15 hover:border-current/40'
 									}`}
+									style={effectiveColor === color
+										? `background-color: var(--theme-accent); color: #fff; border-color: var(--theme-accent);`
+										: ''}
 								>
 									<input
 										type="radio"

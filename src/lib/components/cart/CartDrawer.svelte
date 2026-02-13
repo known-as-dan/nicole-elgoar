@@ -47,7 +47,7 @@
 					{m.cart_title()}
 				</h2>
 				<button
-					class="rounded-md p-2 transition-colors hover:bg-current/5 focus-visible:ring-2 focus-visible:ring-offset-2"
+					class="rounded-md p-2 transition-all duration-150 hover:bg-current/5 active:scale-[0.90] focus-visible:ring-2 focus-visible:ring-offset-2"
 					aria-label={m.cart_close()}
 					onclick={() => cart.close()}
 				>

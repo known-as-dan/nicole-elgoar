@@ -13,6 +13,10 @@
 	--color-muted: #9b9b93;
 }
 
+html {
+	background-color: var(--color-bg);
+}
+
 body {
 	font-family: var(--font-body);
 	color: var(--color-text);
@@ -51,21 +55,100 @@ h6 {
 	animation: page-item-enter 500ms ease-out forwards;
 }
 
-/* Nav glow pulse */
-@keyframes nav-glow-pulse {
-	0%,
-	100% {
-		opacity: 0.6;
-		transform: scale(1);
+/* ── Cart badge pop ── */
+@keyframes badge-pop {
+	0% {
+		transform: scale(1.4);
 	}
 	50% {
-		opacity: 1;
-		transform: scale(1.15);
+		transform: scale(0.95);
+	}
+	100% {
+		transform: scale(1);
 	}
 }
 
-.nav-glow {
-	animation: nav-glow-pulse 3s ease-in-out infinite;
+.badge-pop {
+	animation: badge-pop 300ms ease-out;
+}
+
+/* ── Nav tab glow system ── */
+.nav-tab-glow {
+	background: var(--tab-glow);
+	opacity: 0;
+	filter: blur(8px);
+	transform: scale(0.92);
+	transition:
+		opacity 400ms ease-out,
+		transform 400ms ease-out;
+}
+
+/* Hover: soft glow fade-in (pointer devices only) */
+@media (hover: hover) {
+	.nav-tab:hover .nav-tab-glow:not(.nav-tab-glow-active):not(.nav-tab-glow-pulse) {
+		opacity: 0.18;
+		transform: scale(1);
+	}
+
+	/* Pause breathing on hover */
+	.nav-tab:hover .nav-tab-glow-active {
+		animation-play-state: paused;
+	}
+}
+
+/* Active: steady breathing glow */
+.nav-tab-glow-active {
+	opacity: 0.25;
+	transform: scale(1);
+	animation: nav-glow-breathe 3s ease-in-out infinite;
+}
+
+/* Fade out: smooth exit when tab loses active state */
+.nav-tab-glow-fadeout {
+	animation: nav-glow-fadeout 400ms ease-out forwards;
+}
+
+/* Click: bright pulse then settle */
+.nav-tab-glow-pulse {
+	animation: nav-glow-click 500ms ease-out forwards;
+}
+
+@keyframes nav-glow-fadeout {
+	from {
+		opacity: 0.25;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.92);
+	}
+}
+
+@keyframes nav-glow-breathe {
+	0%,
+	100% {
+		opacity: 0.23;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.28;
+		transform: scale(1.02);
+	}
+}
+
+@keyframes nav-glow-click {
+	0% {
+		opacity: 0.18;
+		transform: scale(1);
+	}
+	35% {
+		opacity: 0.52;
+		transform: scale(1.08);
+	}
+	100% {
+		opacity: 0.25;
+		transform: scale(1);
+	}
 }
 
 /* Reduced motion */
@@ -78,4 +161,28 @@ h6 {
 		transition-duration: 0ms !important;
 		transition-delay: 0ms !important;
 	}
+}
+
+/* ── Accessibility widget overrides ── */
+
+/* Reduce motion (widget toggle) */
+.a11y-reduce-motion *,
+.a11y-reduce-motion *::before,
+.a11y-reduce-motion *::after {
+	animation-duration: 0ms !important;
+	animation-delay: 0ms !important;
+	transition-duration: 0ms !important;
+	transition-delay: 0ms !important;
+}
+
+/* High contrast */
+.a11y-high-contrast {
+	filter: contrast(1.35);
+}
+
+/* Highlight links */
+.a11y-highlight-links a,
+.a11y-highlight-links button {
+	outline: 2px solid currentColor !important;
+	outline-offset: 2px !important;
 }

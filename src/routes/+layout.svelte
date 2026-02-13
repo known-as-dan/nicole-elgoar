@@ -8,10 +8,13 @@
 	import SkipNav from '$lib/components/layout/SkipNav.svelte';
 	import CartDrawer from '$lib/components/cart/CartDrawer.svelte';
 	import LiveRegion from '$lib/components/ui/LiveRegion.svelte';
+	import AccessibilityWidget from '$lib/components/a11y/AccessibilityWidget.svelte';
 	import { setActiveCollection } from '$lib/stores/collection.svelte.js';
 	import { setCart } from '$lib/stores/cart.svelte.js';
 	import { setAccessibility } from '$lib/stores/accessibility.svelte.js';
 	import { getLocale } from '$lib/paraglide/runtime';
+	import { getTheme } from '$lib/theme/themes.js';
+
 
 	const RTL_LOCALES = new Set(['he']);
 
@@ -33,6 +36,14 @@
 		document.documentElement.dir = RTL_LOCALES.has(locale) ? 'rtl' : 'ltr';
 	});
 
+	// Sync root background with active collection theme
+	$effect(() => {
+		const bg = collectionState.handle
+			? getTheme(collectionState.handle).backgroundColor
+			: '#FAFAF8';
+		document.documentElement.style.setProperty('--color-bg', bg);
+	});
+
 	// Watch route params and update active collection
 	$effect(() => {
 		const handle = page.params?.handle;
@@ -47,7 +58,9 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+</svelte:head>
 
 <SkipNav />
 
@@ -63,3 +76,4 @@
 
 <CartDrawer />
 <LiveRegion />
+<AccessibilityWidget />

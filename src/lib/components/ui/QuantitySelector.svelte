@@ -1,4 +1,6 @@
 <script lang="ts">
+	import * as m from '$lib/paraglide/messages';
+
 	let {
 		value = $bindable(1),
 		min = 0,
@@ -29,21 +31,21 @@
 </script>
 
 <div
-	class="inline-flex items-center rounded-lg border border-current/20"
+	class="inline-flex items-center rounded-lg border border-current/20 outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent)] focus-visible:ring-offset-2"
 	role="spinbutton"
 	aria-valuemin={min}
 	aria-valuemax={max}
 	aria-valuenow={value}
-	aria-label="Quantity"
+	aria-label={m.product_quantity()}
 	tabindex="0"
 	onkeydown={handleKeydown}
 >
 	<button
 		type="button"
-		class="px-3 py-1.5 text-sm transition-colors hover:bg-[var(--theme-text)]/5 disabled:opacity-30 rounded-s-lg"
+		class="px-4 py-2.5 text-base transition-all duration-150 hover:bg-[var(--theme-text)]/5 active:scale-[0.90] disabled:opacity-30 rounded-s-lg"
 		disabled={value <= min}
 		onclick={decrement}
-		aria-label="Decrease quantity"
+		aria-label={m.quantity_decrease()}
 		tabindex="-1"
 	>
 		&minus;
@@ -51,10 +53,10 @@
 	<span class="min-w-[2.5rem] text-center text-sm font-semibold">{value}</span>
 	<button
 		type="button"
-		class="px-3 py-1.5 text-sm transition-colors hover:bg-[var(--theme-text)]/5 disabled:opacity-30 rounded-e-lg"
+		class="px-4 py-2.5 text-base transition-all duration-150 hover:bg-[var(--theme-text)]/5 active:scale-[0.90] disabled:opacity-30 rounded-e-lg"
 		disabled={value >= max}
 		onclick={increment}
-		aria-label="Increase quantity"
+		aria-label={m.quantity_increase()}
 		tabindex="-1"
 	>
 		+

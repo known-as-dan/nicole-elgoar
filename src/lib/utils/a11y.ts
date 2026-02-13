@@ -18,7 +18,7 @@ export function getFocusableElements(container: HTMLElement): HTMLElement[] {
  * Trap focus within a container element.
  * Returns a cleanup function.
  */
-export function trapFocus(container: HTMLElement): () => void {
+export function trapFocus(container: HTMLElement) {
 	const previouslyFocused = document.activeElement as HTMLElement | null;
 
 	function handleKeydown(event: KeyboardEvent): void {
@@ -51,9 +51,11 @@ export function trapFocus(container: HTMLElement): () => void {
 		focusable[0].focus();
 	}
 
-	return () => {
-		container.removeEventListener('keydown', handleKeydown);
-		previouslyFocused?.focus();
+	return {
+		destroy() {
+			container.removeEventListener('keydown', handleKeydown);
+			previouslyFocused?.focus();
+		}
 	};
 }
 

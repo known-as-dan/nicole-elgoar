@@ -12,12 +12,12 @@
 
 	function updateQuantity(newQty: number) {
 		cart.updateLine(line.id, newQty);
-		announce(`Updated ${line.merchandise.product.title} quantity to ${newQty}`);
+		announce(m.cart_quantity_updated({ name: line.merchandise.product.title, count: newQty }));
 	}
 
 	function removeLine() {
 		cart.removeLine(line.id);
-		announce(`Removed ${line.merchandise.product.title} from cart`);
+		announce(m.cart_item_removed({ name: line.merchandise.product.title }));
 	}
 
 	let qty = $state(0);
@@ -43,7 +43,7 @@
 			alt={line.merchandise.title}
 			width={80}
 			height={107}
-			class="h-24 w-18 rounded-md object-cover"
+			class="h-24 w-18 rounded-md object-contain"
 		/>
 	{/if}
 
@@ -54,7 +54,7 @@
 				<p class="text-xs opacity-60">{line.merchandise.title}</p>
 			</div>
 			<button
-				class="rounded p-1 transition-colors hover:bg-current/5 focus-visible:ring-2 focus-visible:ring-offset-2"
+				class="rounded p-1 transition-all duration-150 hover:bg-current/5 active:scale-[0.85] focus-visible:ring-2 focus-visible:ring-offset-2"
 				aria-label={m.cart_remove({ name: line.merchandise.product.title })}
 				onclick={removeLine}
 			>

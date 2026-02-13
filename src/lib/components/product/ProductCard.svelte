@@ -13,7 +13,7 @@
 </script>
 
 <article
-	class="group cursor-pointer rounded-lg transition-shadow duration-300 hover:shadow-lg focus-within:shadow-lg"
+	class="group cursor-pointer rounded-lg transition-shadow duration-300 hover:shadow-lg focus-within:shadow-lg relative hover:z-10"
 	aria-label={product.title}
 >
 	<button
@@ -22,7 +22,7 @@
 	>
 		<ProductImage images={product.images} alt={product.title} />
 
-		<div class="p-3" style="background: var(--theme-card-bg, #fff)">
+		<div class="p-2 sm:p-3" style="background: var(--theme-card-bg, #fff)">
 			<h3
 				class="text-sm font-medium truncate"
 				style="color: var(--theme-text, var(--color-text))"

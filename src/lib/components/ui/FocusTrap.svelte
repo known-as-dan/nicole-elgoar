@@ -8,7 +8,8 @@
 
 	$effect(() => {
 		if (containerEl) {
-			return trapFocus(containerEl);
+			const { destroy } = trapFocus(containerEl);
+			return destroy;
 		}
 	});
 </script>

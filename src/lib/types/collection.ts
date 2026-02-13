@@ -9,5 +9,6 @@ export interface CollectionSummary {
 }
 
 export interface CollectionWithProducts extends CollectionSummary {
+	sections: string[];
 	products: Product[];
 }
