@@ -9,6 +9,8 @@ export interface CartLineMerchandise {
 	};
 	image: ProductImage;
 	selectedOptions: ProductVariant['selectedOptions'];
+	price: Money;
+	compareAtPrice: Money | null;
 }
 
 export interface CartLine {

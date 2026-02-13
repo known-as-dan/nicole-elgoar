@@ -5,19 +5,17 @@
 	let {
 		variant = 'primary',
 		size = 'md',
-		disabled = false,
 		loading = false,
-		onclick,
 		children,
-		type = 'button'
+		class: className,
+		...rest
 	}: {
 		variant?: 'primary' | 'secondary' | 'ghost';
 		size?: 'sm' | 'md' | 'lg';
-		disabled?: boolean;
 		loading?: boolean;
-		onclick?: () => void;
 		children: Snippet;
-		type?: 'button' | 'submit' | 'reset';
+		class?: string;
+		[key: string]: any;
 	} = $props();
 
 	const variantClasses = {
@@ -37,15 +35,14 @@
 </script>
 
 <button
-	{type}
-	{disabled}
-	{onclick}
 	class={[
 		'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--theme-accent)] focus-visible:ring-offset-2',
 		variantClasses[variant],
-		sizeClasses[size]
+		sizeClasses[size],
+		className
 	]}
 	aria-busy={loading}
+	{...rest}
 >
 	{#if loading}
 		<Spinner />

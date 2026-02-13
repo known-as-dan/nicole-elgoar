@@ -1,6 +1,5 @@
-<script lang="ts">
+<script>
 	import { fly } from 'svelte/transition';
-	import type { Product, ProductVariant } from '$lib/types/index.js';
 	import { getCart } from '$lib/stores/cart.svelte.js';
 	import { getAccessibility } from '$lib/stores/accessibility.svelte.js';
 	import { formatPrice } from '$lib/utils/currency.js';
@@ -9,39 +8,47 @@
 	import QuantitySelector from '$lib/components/ui/QuantitySelector.svelte';
 	import * as m from '$lib/paraglide/messages';
 
-	let { product, onclose }: { product: Product; onclose: () => void } = $props();
+	let { product, onclose } = $props();
 
 	const cart = getCart();
 	const accessibility = getAccessibility();
 
-	let selectedVariant = $state<ProductVariant | undefined>(undefined);
 	let quantity = $state(1);
 	let showingBack = $state(false);
-	let dialogEl: HTMLDivElement | undefined = $state();
-
-	// Initialize selectedVariant from product
-	$effect(() => {
-		selectedVariant = product.variants[0];
-	});
+	let initialVariant = $derived(product.variants[0]);
 
 	let frontImage = $derived(product.images[0]);
-	let backImage = $derived(product.images[1] ?? product.images[0]);
+	let backImage = $derived(product.images[1] ? product.images[1] : product.images[0]);
 	let displayedImage = $derived(showingBack ? backImage : frontImage);
 
-	$effect(() => {
-		if (dialogEl) {
-			return trapFocus(dialogEl);
-		}
-	});
-
-	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
-			onclose();
-		}
+	function getOptionValue(variant, name) {
+		if (!variant) return '';
+		const option = variant.selectedOptions.find((entry) => entry.name === name);
+		return option ? option.value : '';
 	}
 
-	function handleBackdropClick(event: MouseEvent) {
-		if (event.target === event.currentTarget) {
+	function findMatchingVariant(variants, size, color) {
+		for (const variant of variants) {
+			let isMatch = true;
+			for (const option of variant.selectedOptions) {
+				if (option.name === 'Size' && option.value !== size) {
+					isMatch = false;
+					break;
+				}
+				if (option.name === 'Color' && option.value !== color) {
+					isMatch = false;
+					break;
+				}
+			}
+			if (isMatch) {
+				return variant;
+			}
+		}
+		return undefined;
+	}
+
+	function handleKeydown(event) {
+		if (event.key === 'Escape') {
 			onclose();
 		}
 	}
@@ -49,16 +56,16 @@
 	function addToCart() {
 		if (!selectedVariant || !selectedVariant.availableForSale) return;
 
-		cart.addLineWithPrice(
+		cart.addLine(
 			{
 				id: selectedVariant.id,
 				title: selectedVariant.title,
 				product: { title: product.title, handle: product.handle },
 				image: selectedVariant.image,
-				selectedOptions: selectedVariant.selectedOptions
+				selectedOptions: selectedVariant.selectedOptions,
+				price: selectedVariant.price,
+				compareAtPrice: selectedVariant.compareAtPrice
 			},
-			selectedVariant.price.amount,
-			selectedVariant.price.currencyCode,
 			quantity
 		);
 
@@ -69,54 +76,63 @@
 
 	// Group variants by option name
 	let sizeOptions = $derived(
-		[...new Set(product.variants.map((v) => v.selectedOptions.find((o) => o.name === 'Size')?.value).filter(Boolean))] as string[]
+		[
+			...new Set(
+				product.variants
+					.map((v) => {
+						const option = v.selectedOptions.find((o) => o.name === 'Size');
+						return option ? option.value : undefined;
+					})
+					.filter((value) => value !== undefined)
+			)
+		]
 	);
 	let colorOptions = $derived(
-		[...new Set(product.variants.map((v) => v.selectedOptions.find((o) => o.name === 'Color')?.value).filter(Boolean))] as string[]
+		[
+			...new Set(
+				product.variants
+					.map((v) => {
+						const option = v.selectedOptions.find((o) => o.name === 'Color');
+						return option ? option.value : undefined;
+					})
+					.filter((value) => value !== undefined)
+			)
+		]
 	);
 
-	let selectedSize = $state('');
-	let selectedColor = $state('');
-
-	// Initialize size/color from first variant
-	$effect(() => {
-		const first = product.variants[0];
-		if (first) {
-			selectedSize = first.selectedOptions.find((o) => o.name === 'Size')?.value ?? '';
-			selectedColor = first.selectedOptions.find((o) => o.name === 'Color')?.value ?? '';
-		}
-	});
-
-	// Update selectedVariant when options change
-	$effect(() => {
-		const match = product.variants.find(
-			(v) =>
-				v.selectedOptions.every(
-					(o) =>
-						(o.name === 'Size' && o.value === selectedSize) ||
-						(o.name === 'Color' && o.value === selectedColor)
-				)
-		);
-		if (match) {
-			selectedVariant = match;
-		}
-	});
+	let selectedSize = $state(null);
+	let selectedColor = $state(null);
+	let defaultSize = $derived(getOptionValue(initialVariant, 'Size'));
+	let defaultColor = $derived(getOptionValue(initialVariant, 'Color'));
+	let effectiveSize = $derived(selectedSize != null ? selectedSize : defaultSize);
+	let effectiveColor = $derived(selectedColor != null ? selectedColor : defaultColor);
+	let selectedVariant = $derived(
+		findMatchingVariant(product.variants, effectiveSize, effectiveColor) || initialVariant
+	);
+	let maxQuantity = $derived(
+		selectedVariant && selectedVariant.quantityAvailable != null ? selectedVariant.quantityAvailable : 99
+	);
+	let isAvailable = $derived(!!(selectedVariant && selectedVariant.availableForSale));
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
-<!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events -->
 <div
-	class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-	onclick={handleBackdropClick}
+	class="fixed inset-0 z-50 flex items-center justify-center p-4"
 	transition:fly={{ y: 0, duration: accessibility.reducedMotion ? 0 : 200, opacity: 0 }}
 >
+	<button
+		type="button"
+		class="absolute inset-0 bg-black/50"
+		aria-label={m.close()}
+		onclick={onclose}
+	></button>
 	<div
-		bind:this={dialogEl}
+		use:trapFocus
 		role="dialog"
 		aria-modal="true"
 		aria-label={product.title}
-		class="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl shadow-2xl"
+		class="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl shadow-2xl"
 		style="background: var(--theme-card-bg, #fff); color: var(--theme-text, var(--color-text))"
 		transition:fly={{ y: 20, duration: accessibility.reducedMotion ? 0 : 300 }}
 	>
@@ -176,20 +192,19 @@
 					<fieldset>
 						<legend class="mb-1 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_size()}</legend>
 						<div class="flex flex-wrap gap-2">
-							{#each sizeOptions as size}
+							{#each sizeOptions as size (size)}
 								<label
-									class={[
-										'cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors',
+									class={`cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors ${
 										selectedSize === size
 											? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 font-semibold'
 											: 'border-current/20 hover:border-current/40'
-									]}
+									}`}
 								>
 									<input
 										type="radio"
 										name="size"
 										value={size}
-										checked={selectedSize === size}
+										checked={effectiveSize === size}
 										onchange={() => (selectedSize = size)}
 										class="sr-only"
 									/>
@@ -205,20 +220,19 @@
 					<fieldset>
 						<legend class="mb-1 text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_color()}</legend>
 						<div class="flex flex-wrap gap-2">
-							{#each colorOptions as color}
+							{#each colorOptions as color (color)}
 								<label
-									class={[
-										'cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors',
+									class={`cursor-pointer rounded-md border px-3 py-1.5 text-sm transition-colors ${
 										selectedColor === color
 											? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 font-semibold'
 											: 'border-current/20 hover:border-current/40'
-									]}
+									}`}
 								>
 									<input
 										type="radio"
 										name="color"
 										value={color}
-										checked={selectedColor === color}
+										checked={effectiveColor === color}
 										onchange={() => (selectedColor = color)}
 										class="sr-only"
 									/>
@@ -232,7 +246,7 @@
 				<!-- Quantity -->
 				<div>
 					<span class="mb-1 block text-xs font-semibold uppercase tracking-wider opacity-60">{m.product_quantity()}</span>
-					<QuantitySelector bind:value={quantity} min={1} max={selectedVariant?.quantityAvailable ?? 99} />
+					<QuantitySelector bind:value={quantity} min={1} max={maxQuantity} />
 				</div>
 
 				<!-- Inventory -->
@@ -246,10 +260,10 @@
 				<Button
 					variant="primary"
 					size="lg"
-					disabled={!selectedVariant?.availableForSale}
+					disabled={!isAvailable}
 					onclick={addToCart}
 				>
-					{selectedVariant?.availableForSale ? m.product_add_to_cart() : m.product_sold_out()}
+					{isAvailable ? m.product_add_to_cart() : m.product_sold_out()}
 				</Button>
 			</div>
 		</div>

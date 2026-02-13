@@ -59,3 +59,13 @@ export function getThemeDecoration(handle: string): CollectionTheme['decoration'
 export function getAllThemes(): CollectionTheme[] {
 	return Object.values(themes);
 }
+
+export function themeToCustomProperties(theme: CollectionTheme): Record<string, string> {
+	return {
+		'--theme-bg-gradient': theme.backgroundGradient,
+		'--theme-bg': theme.backgroundColor,
+		'--theme-text': theme.textColor,
+		'--theme-accent': theme.accentColor,
+		'--theme-card-bg': theme.cardBackground
+	};
+}

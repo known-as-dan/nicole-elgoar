@@ -1,0 +1,8 @@
+[     120ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/assets/0.D8Ly8nPz.css:0
+[     130ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/CXrljEoU.js:0
+[     130ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/C8cil5oI.js:0
+[     131ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/D-8-sidC.js:0
+[     131ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/BKOEC5_R.js:0
+[     131ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/DACAa9j7.js:0
+[     131ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nicole.thewaypoint.net/_app/immutable/chunks/C4nNsv5O.js:0
+[     166ms] Failed to fetch dynamically imported module: https://nicole.thewaypoint.net/_app/immutable/entry/app.B2XjZNoj.js

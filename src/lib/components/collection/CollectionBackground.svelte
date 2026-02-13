@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { getActiveCollection } from '$lib/stores/collection.svelte.js';
 	import { getAccessibility } from '$lib/stores/accessibility.svelte.js';
-	import { getTheme } from '$lib/theme/themes.js';
-	import { themeToCustomProperties } from '$lib/theme/utils.js';
+	import { getTheme, themeToCustomProperties } from '$lib/theme/themes.js';
 
 	const collection = getActiveCollection();
 	const accessibility = getAccessibility();

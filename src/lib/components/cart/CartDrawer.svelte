@@ -11,45 +11,33 @@
 	const cart = getCart();
 	const accessibility = getAccessibility();
 
-	let drawerEl: HTMLDivElement | undefined = $state();
-
-	$effect(() => {
-		if (cart.open && drawerEl) {
-			return trapFocus(drawerEl);
-		}
-	});
-
 	function handleKeydown(event: KeyboardEvent) {
 		if (cart.open && event.key === 'Escape') {
 			cart.close();
 		}
 	}
 
-	function handleBackdropClick(event: MouseEvent) {
-		if (event.target === event.currentTarget) {
-			cart.close();
-		}
-	}
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
 {#if cart.open}
-	<!-- Backdrop -->
-	<!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events -->
 	<div
-		class="fixed inset-0 z-50 bg-black/50"
-		onclick={handleBackdropClick}
+		class="fixed inset-0 z-50"
 		transition:fly={{ duration: accessibility.reducedMotion ? 0 : 200, opacity: 0, x: 0 }}
 	>
-		<!-- Drawer panel -->
-		<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+		<button
+			type="button"
+			class="absolute inset-0 bg-black/50"
+			aria-label={m.cart_close()}
+			onclick={() => cart.close()}
+		></button>
 		<div
-			bind:this={drawerEl}
+			use:trapFocus
 			role="dialog"
 			aria-modal="true"
 			aria-label={m.cart_title()}
-			class="fixed inset-y-0 end-0 z-50 flex w-full max-w-md flex-col shadow-2xl"
+			class="fixed inset-y-0 end-0 z-10 flex w-full max-w-md flex-col shadow-2xl"
 			style="background: var(--theme-card-bg, #fff); color: var(--theme-text, var(--color-text))"
 			transition:fly={{ x: 400, duration: accessibility.reducedMotion ? 0 : 300 }}
 		>

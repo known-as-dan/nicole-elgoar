@@ -40,40 +40,19 @@ export class CartState {
 				parseFloat(existing.cost.amountPerQuantity.amount) * existing.quantity
 			).toFixed(2);
 		} else {
-			const amountPerQuantity = merchandise.selectedOptions.length > 0
-				? '0.00'
-				: '0.00';
-			// We need the price passed in separately - derive from context
 			this.lines.push({
 				id: `line-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
 				quantity,
 				merchandise,
 				cost: {
-					totalAmount: { amount: '0.00', currencyCode: 'USD' },
-					amountPerQuantity: { amount: '0.00', currencyCode: 'USD' }
-				}
-			});
-		}
-
-		this.#persist();
-	}
-
-	addLineWithPrice(merchandise: CartLineMerchandise, priceAmount: string, currencyCode: string, quantity: number = 1): void {
-		const existing = this.lines.find((l) => l.merchandise.id === merchandise.id);
-
-		if (existing) {
-			existing.quantity += quantity;
-			existing.cost.totalAmount.amount = (
-				parseFloat(existing.cost.amountPerQuantity.amount) * existing.quantity
-			).toFixed(2);
-		} else {
-			this.lines.push({
-				id: `line-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-				quantity,
-				merchandise,
-				cost: {
-					totalAmount: { amount: (parseFloat(priceAmount) * quantity).toFixed(2), currencyCode },
-					amountPerQuantity: { amount: priceAmount, currencyCode }
+					totalAmount: {
+						amount: (parseFloat(merchandise.price.amount) * quantity).toFixed(2),
+						currencyCode: merchandise.price.currencyCode
+					},
+					amountPerQuantity: {
+						amount: merchandise.price.amount,
+						currencyCode: merchandise.price.currencyCode
+					}
 				}
 			});
 		}
