@@ -10,10 +10,11 @@
 - Shared via `setContext()` / `getContext()` -- no legacy stores (`writable`, `readable`, etc.)
 - Key state classes: `CollectionState`, `CartState`, `AccessibilityState`
 - Use `$state`, `$derived`, `$effect` runes
+- **CartState**: Consolidated logic; `addLine` accepts `CartLineMerchandise` with embedded price info (no separate price args).
 
 ## Theming System
 - Typed `CollectionTheme` objects with all visual properties
-- Themes converted to CSS custom properties via `themeToCustomProperties()`
+- Theme utilities consolidated in `src/lib/theme/themes.ts` (including `themeToCustomProperties`)
 - Each theme defines: gradient, pattern, colors, card background, decorations, transition config
 - Per-theme `@keyframes` for collection transitions
 

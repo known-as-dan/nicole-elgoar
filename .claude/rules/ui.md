@@ -60,6 +60,12 @@
   - `border-s-*` / `border-e-*` (not `border-l-*` / `border-r-*`)
   - `rounded-s-*` / `rounded-e-*` (not `rounded-l-*` / `rounded-r-*`)
 
+## Base Components
+- **Button** & **IconButton**:
+  - Support `...rest` props for native HTML attributes (e.g., `aria-*`, `data-*`, `form`).
+  - Support class merging: `<Button class="extra-classes" ... />`.
+  - `disabled` prop styling is handled automatically but can be overridden.
+
 ## Accessibility
 - All interactive elements: `focus-visible:ring-2 focus-visible:ring-offset-2`
 - Skip-to-content link: `sr-only` by default, visible on focus
