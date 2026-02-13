@@ -33,7 +33,7 @@
 		<img
 			src={collection.image.url}
 			alt={collection.title}
-			class="h-5 w-auto"
+			class="h-14 w-auto"
 		/>
 	{:else}
 		<span class="text-[var(--theme-accent)] opacity-50" aria-hidden="true">
