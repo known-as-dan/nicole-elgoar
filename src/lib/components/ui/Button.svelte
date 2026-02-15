@@ -20,7 +20,7 @@
 
 	const variantClasses = {
 		primary:
-			'bg-[var(--theme-accent,#1A1A1A)] text-white hover:opacity-90 disabled:opacity-40',
+			'bg-[var(--theme-accent,#c43a52)] text-white hover:opacity-90 disabled:opacity-40',
 		secondary:
 			'border border-[var(--theme-text,var(--color-text))]/20 hover:bg-[var(--theme-text)]/5 disabled:opacity-40',
 		ghost:

@@ -129,7 +129,7 @@
 	<!-- Main accessibility button -->
 	<button
 		type="button"
-		class="a11y-btn flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-[var(--theme-accent)] text-white shadow-lg transition-all duration-300 ease-out hover:scale-110 hover:shadow-xl focus:outline-none"
+		class="a11y-btn flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-800 bg-[var(--theme-accent)] text-white shadow-lg transition-all duration-300 ease-out hover:scale-110 hover:shadow-xl focus:outline-none"
 		class:a11y-btn-open={isOpen}
 		onclick={(e) => {
 			e.stopPropagation();
@@ -149,7 +149,7 @@
 	<!-- Accessibility panel -->
 	{#if isOpen}
 		<div
-			class="absolute start-0 bottom-16 w-72 max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-hidden rounded-2xl border border-neutral-200 bg-white/95 shadow-2xl backdrop-blur-sm flex flex-col"
+			class="absolute start-0 bottom-16 w-72 max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-hidden rounded-2xl border border-neutral-700 bg-neutral-900/95 shadow-2xl backdrop-blur-sm flex flex-col"
 			role="dialog"
 			aria-label={m.a11y_panel_title()}
 			tabindex="-1"
@@ -157,7 +157,7 @@
 			onkeydown={(e) => e.key === 'Escape' && (isOpen = false)}
 		>
 			<!-- Header -->
-			<div class="border-b border-neutral-200 bg-[var(--theme-accent)] px-4 py-3 text-white">
+			<div class="border-b border-neutral-700 bg-[var(--theme-accent)] px-4 py-3 text-white">
 				<div class="flex items-center justify-between">
 					<h2 class="font-heading text-sm font-semibold">{m.a11y_panel_title()}</h2>
 					<kbd class="rounded bg-white/20 px-1.5 py-0.5 font-mono text-[13px] font-bold"
@@ -174,19 +174,19 @@
 					>
 					<div class="grid grid-cols-1 gap-1.5 text-[13px] text-[var(--color-muted)]">
 						<div class="flex items-center gap-1.5">
-							<kbd class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[13px] font-bold"
+							<kbd class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[13px] font-bold"
 								>{modKey}+1</kbd
 							>
 							<span>{m.a11y_nav_home()}</span>
 						</div>
 						<div class="flex items-center gap-1.5">
-							<kbd class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[13px] font-bold"
+							<kbd class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[13px] font-bold"
 								>{modKey}+2</kbd
 							>
 							<span>{m.a11y_nav_warm_blanket()}</span>
 						</div>
 						<div class="flex items-center gap-1.5">
-							<kbd class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[13px] font-bold"
+							<kbd class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[13px] font-bold"
 								>{modKey}+3</kbd
 							>
 							<span>{m.a11y_nav_lazy()}</span>
@@ -194,7 +194,7 @@
 					</div>
 				</div>
 
-				<hr class="border-neutral-200" />
+				<hr class="border-neutral-700" />
 
 				<!-- Font size -->
 				<div class="space-y-2">
@@ -203,21 +203,21 @@
 							{m.a11y_font_size()} ({fontSize}%)
 						</span>
 						<kbd
-							class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[13px] font-bold text-[var(--color-muted)]"
+							class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[13px] font-bold text-[var(--color-muted)]"
 							>{modKey}+/−</kbd
 						>
 					</div>
 					<div class="flex items-center gap-2">
 						<button
 							type="button"
-							class="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-[var(--color-text)] transition-colors hover:bg-[var(--theme-accent)]/10 disabled:opacity-50"
+							class="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[var(--color-text)] transition-colors hover:bg-[var(--theme-accent)]/10 disabled:opacity-50"
 							onclick={() => adjustFontSize(-10)}
 							disabled={fontSize <= 80}
 							aria-label={m.a11y_decrease_font()}
 						>
 							<span class="text-lg font-bold">−</span>
 						</button>
-						<div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-100">
+						<div class="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800">
 							<div
 								class="h-full bg-[var(--theme-accent)] transition-all"
 								style="width: {((fontSize - 80) / 70) * 100}%"
@@ -225,7 +225,7 @@
 						</div>
 						<button
 							type="button"
-							class="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-[var(--color-text)] transition-colors hover:bg-[var(--theme-accent)]/10 disabled:opacity-50"
+							class="flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 text-[var(--color-text)] transition-colors hover:bg-[var(--theme-accent)]/10 disabled:opacity-50"
 							onclick={() => adjustFontSize(10)}
 							disabled={fontSize >= 150}
 							aria-label={m.a11y_increase_font()}
@@ -241,7 +241,7 @@
 						type="button"
 						class="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-start text-sm transition-colors {highContrast
 							? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 text-[var(--theme-accent)]'
-							: 'border-neutral-200 bg-neutral-100 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
+							: 'border-neutral-700 bg-neutral-800 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
 						onclick={() => (highContrast = !highContrast)}
 						aria-pressed={highContrast}
 					>
@@ -253,7 +253,7 @@
 						type="button"
 						class="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-start text-sm transition-colors {highlightLinks
 							? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 text-[var(--theme-accent)]'
-							: 'border-neutral-200 bg-neutral-100 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
+							: 'border-neutral-700 bg-neutral-800 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
 						onclick={() => (highlightLinks = !highlightLinks)}
 						aria-pressed={highlightLinks}
 					>
@@ -265,7 +265,7 @@
 						type="button"
 						class="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-start text-sm transition-colors {reduceMotion
 							? 'border-[var(--theme-accent)] bg-[var(--theme-accent)]/10 text-[var(--theme-accent)]'
-							: 'border-neutral-200 bg-neutral-100 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
+							: 'border-neutral-700 bg-neutral-800 text-[var(--color-text)] hover:bg-[var(--theme-accent)]/10'}"
 						onclick={() => (reduceMotion = !reduceMotion)}
 						aria-pressed={reduceMotion}
 					>
@@ -277,18 +277,18 @@
 				<!-- Reset button -->
 				<button
 					type="button"
-					class="flex w-full items-center justify-between rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm text-[var(--color-muted)] transition-colors hover:bg-neutral-100 hover:text-[var(--color-text)]"
+					class="flex w-full items-center justify-between rounded-lg border border-neutral-700 bg-neutral-800 px-3 py-2 text-sm text-[var(--color-muted)] transition-colors hover:bg-neutral-700 hover:text-[var(--color-text)]"
 					onclick={resetAll}
 				>
 					<span>{m.a11y_reset()}</span>
-					<kbd class="rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-[13px] font-bold"
+					<kbd class="rounded bg-neutral-800 px-1.5 py-0.5 font-mono text-[13px] font-bold"
 						>{modKey}+0</kbd
 					>
 				</button>
 			</div>
 
 			<!-- Footer with statement link -->
-			<div class="border-t border-neutral-200 px-4 py-2 text-center">
+			<div class="border-t border-neutral-700 px-4 py-2 text-center">
 				<a
 					href="#accessibility"
 					class="text-xs text-[var(--color-muted)] underline hover:text-[var(--color-text)]"
@@ -303,17 +303,17 @@
 <style>
 	.a11y-btn {
 		box-shadow:
-			0 0 0 0 white,
+			0 0 0 0 #000000,
 			0 0 0 0 var(--theme-accent),
-			0 10px 15px -3px rgb(0 0 0 / 0.1);
+			0 10px 15px -3px rgb(0 0 0 / 0.3);
 	}
 
 	.a11y-btn:focus-visible,
 	.a11y-btn-open {
 		box-shadow:
-			0 0 0 2px white,
+			0 0 0 2px #000000,
 			0 0 0 4px var(--theme-accent),
-			0 10px 15px -3px rgb(0 0 0 / 0.1);
+			0 10px 15px -3px rgb(0 0 0 / 0.3);
 	}
 
 	.a11y-btn svg {

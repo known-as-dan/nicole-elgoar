@@ -38,8 +38,8 @@
 			aria-modal="true"
 			aria-label={m.cart_title()}
 			class="fixed inset-y-0 end-0 z-10 flex w-full max-w-md flex-col shadow-2xl"
-			style="background: var(--theme-card-bg, #fff); color: var(--theme-text, var(--color-text))"
-			transition:fly={{ x: 400, duration: accessibility.reducedMotion ? 0 : 300 }}
+			style="background: var(--theme-card-bg, #1a1a1a); color: var(--theme-text, var(--color-text))"
+			transition:fly={{ x: document.documentElement.dir === 'rtl' ? -400 : 400, duration: accessibility.reducedMotion ? 0 : 300 }}
 		>
 			<!-- Header -->
 			<div class="flex items-center justify-between border-b border-current/10 px-6 py-4">

@@ -12,7 +12,7 @@
 	<!-- Logo above the nav box -->
 	<div class="flex justify-center">
 		<a href="/" class="inline-block rounded-lg transition-all duration-200 hover:opacity-80 hover:scale-[1.03] active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent)] focus-visible:ring-offset-2">
-			<img src="/ne_logo.png" alt={m.brand_name()} class="h-20 sm:h-28 lg:h-36" />
+			<img src="/nicole_logo.png" alt={m.brand_name()} class="h-20 sm:h-28 lg:h-36" />
 		</a>
 	</div>
 
@@ -60,7 +60,7 @@
 		inset: 0;
 		z-index: 0;
 		border-radius: 1rem;
-		background: rgba(255, 255, 255, 0.25);
+		background: rgba(255, 255, 255, 0.06);
 		backdrop-filter: blur(16px);
 		-webkit-backdrop-filter: blur(16px);
 		mask-image: linear-gradient(

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.svg';
 	import PageShell from '$lib/components/layout/PageShell.svelte';
 	import Navbar from '$lib/components/layout/Navbar.svelte';
 	import Footer from '$lib/components/layout/Footer.svelte';
@@ -40,7 +39,7 @@
 	$effect(() => {
 		const bg = collectionState.handle
 			? getTheme(collectionState.handle).backgroundColor
-			: '#FAFAF8';
+			: '#000000';
 		document.documentElement.style.setProperty('--color-bg', bg);
 	});
 
@@ -59,7 +58,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" type="image/png" href="/favicon.png" />
 </svelte:head>
 
 <SkipNav />

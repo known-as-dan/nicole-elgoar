@@ -17,9 +17,9 @@
 		'Sets': () => m.section_sets(),
 		'Tops': () => m.section_tops(),
 		'Bottoms': () => m.section_bottoms(),
-		'Robes & Wraps': () => m.section_robes_wraps(),
-		'Accessories': () => m.section_accessories(),
-		'Hoodies & Sweatshirts': () => m.section_hoodies_sweatshirts(),
+		'Layers': () => m.section_robes_wraps(),
+		'Essentials': () => m.section_accessories(),
+		'Hoods & Crews': () => m.section_hoodies_sweatshirts(),
 		'Tees & Tanks': () => m.section_tees_tanks()
 	};
 
@@ -42,17 +42,20 @@
 
 {#each groupedProducts as group, gi (group.name ?? 'all')}
 	{#if group.name}
-		<section class="mb-14" aria-labelledby="section-{gi}">
-			<div class="mb-6 flex items-center gap-4">
-				<div class="h-px flex-1" style="background: var(--theme-accent, #ccc); opacity: 0.3"></div>
-				<h2
-					id="section-{gi}"
-					class="font-heading text-xl font-semibold uppercase tracking-widest text-center"
-					style="color: var(--theme-text, var(--color-text))"
-				>
-					{getSectionLabel(group.name)}
-				</h2>
-				<div class="h-px flex-1" style="background: var(--theme-accent, #ccc); opacity: 0.3"></div>
+		<section class="mb-20" aria-labelledby="section-{gi}">
+			<div class="mb-10 flex items-center gap-5">
+				<div class="h-[2px] flex-1" style="background: linear-gradient(to right, transparent, var(--theme-accent, #ccc)); opacity: 0.4"></div>
+				<div class="relative px-6 py-2">
+					<div class="section-noise pointer-events-none absolute inset-0 rounded-sm" aria-hidden="true"></div>
+					<h2
+						id="section-{gi}"
+						class="font-heading relative text-sm sm:text-base font-bold uppercase tracking-[0.3em] text-center whitespace-nowrap"
+						style="color: var(--theme-text, var(--color-text))"
+					>
+						{getSectionLabel(group.name)}
+					</h2>
+				</div>
+				<div class="h-[2px] flex-1" style="background: linear-gradient(to left, transparent, var(--theme-accent, #ccc)); opacity: 0.4"></div>
 			</div>
 			<ul class="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4" role="list">
 				{#each group.items as product, i (product.id)}

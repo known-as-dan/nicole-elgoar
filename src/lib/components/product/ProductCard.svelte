@@ -22,7 +22,7 @@
 	>
 		<ProductImage images={product.images} alt={product.title} />
 
-		<div class="p-2 sm:p-3" style="background: var(--theme-card-bg, #fff)">
+		<div class="p-2 sm:p-3" style="background: var(--theme-card-bg, #1a1a1a)">
 			<h3
 				class="text-sm font-medium truncate"
 				style="color: var(--theme-text, var(--color-text))"

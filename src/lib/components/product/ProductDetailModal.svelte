@@ -140,12 +140,12 @@
 		aria-modal="true"
 		aria-label={product.title}
 		class="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl shadow-2xl"
-		style="background: var(--theme-card-bg, #fff); color: var(--theme-text, var(--color-text))"
+		style="background: var(--theme-card-bg, #1a1a1a); color: var(--theme-text, var(--color-text))"
 		transition:fly={{ y: 20, duration: accessibility.reducedMotion ? 0 : 300 }}
 	>
 		<!-- Close button -->
 		<button
-			class="absolute end-3 top-3 z-10 rounded-full p-2 transition-all duration-150 hover:bg-black/10 active:scale-[0.85] focus-visible:ring-2 focus-visible:ring-offset-2"
+			class="absolute end-3 top-3 z-10 rounded-full p-2 transition-all duration-150 hover:bg-white/10 active:scale-[0.85] focus-visible:ring-2 focus-visible:ring-offset-2"
 			aria-label={m.close()}
 			onclick={onclose}
 		>

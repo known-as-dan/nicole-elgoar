@@ -26,7 +26,7 @@
 	{#if cart.itemCount > 0}
 		{#key cart.itemCount}
 			<span
-				class="badge-pop absolute -end-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--theme-accent,#1A1A1A)] px-1 text-[10px] font-bold text-white"
+				class="badge-pop absolute -end-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--theme-accent,#c43a52)] px-1 text-[10px] font-bold text-white"
 			>
 				{cart.itemCount}
 			</span>

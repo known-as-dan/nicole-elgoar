@@ -63,7 +63,7 @@
 	></div>
 
 	{#if collection.image}
-		<img src={collection.image.url} alt={collection.title} class="relative z-10 h-9 w-auto sm:h-14" />
+		<img src={collection.image.url} alt={collection.title} class="relative z-10 h-9 w-auto brightness-0 invert sm:h-14" />
 	{:else}
 		<span class="relative z-10 opacity-50" style="color: {theme.accentColor}" aria-hidden="true">
 			{@html theme.decoration.left}

@@ -4,13 +4,13 @@
 
 /* Typography */
 :root {
-	--font-heading: 'Sora', system-ui, sans-serif;
-	--font-body: 'Outfit', system-ui, sans-serif;
+	--font-heading: 'Space Grotesk', system-ui, sans-serif;
+	--font-body: 'Inter', system-ui, sans-serif;
 
 	/* Base palette */
-	--color-bg: #fafaf8;
-	--color-text: #1a1a1a;
-	--color-muted: #9b9b93;
+	--color-bg: #000000;
+	--color-text: #f0f0f0;
+	--color-muted: #7a7a7a;
 }
 
 html {
@@ -86,7 +86,7 @@ h6 {
 /* Hover: soft glow fade-in (pointer devices only) */
 @media (hover: hover) {
 	.nav-tab:hover .nav-tab-glow:not(.nav-tab-glow-active):not(.nav-tab-glow-pulse) {
-		opacity: 0.18;
+		opacity: 0.35;
 		transform: scale(1);
 	}
 
@@ -98,7 +98,7 @@ h6 {
 
 /* Active: steady breathing glow */
 .nav-tab-glow-active {
-	opacity: 0.25;
+	opacity: 0.45;
 	transform: scale(1);
 	animation: nav-glow-breathe 3s ease-in-out infinite;
 }
@@ -115,7 +115,7 @@ h6 {
 
 @keyframes nav-glow-fadeout {
 	from {
-		opacity: 0.25;
+		opacity: 0.45;
 		transform: scale(1);
 	}
 	to {
@@ -127,28 +127,35 @@ h6 {
 @keyframes nav-glow-breathe {
 	0%,
 	100% {
-		opacity: 0.23;
+		opacity: 0.4;
 		transform: scale(1);
 	}
 	50% {
-		opacity: 0.28;
+		opacity: 0.5;
 		transform: scale(1.02);
 	}
 }
 
 @keyframes nav-glow-click {
 	0% {
-		opacity: 0.18;
+		opacity: 0.35;
 		transform: scale(1);
 	}
 	35% {
-		opacity: 0.52;
+		opacity: 0.75;
 		transform: scale(1.08);
 	}
 	100% {
-		opacity: 0.25;
+		opacity: 0.45;
 		transform: scale(1);
 	}
+}
+
+/* ── Section noise texture ── */
+.section-noise {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	background-size: 200px 200px;
+	opacity: 0.08;
 }
 
 /* Reduced motion */

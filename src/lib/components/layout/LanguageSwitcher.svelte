@@ -56,7 +56,7 @@
 	{#if open}
 		<div
 			class="absolute top-full z-50 mt-2 min-w-32 overflow-hidden rounded-lg shadow-lg lang-dropdown"
-			style="background: var(--theme-card-bg, #fff); color: var(--theme-text, var(--color-text))"
+			style="background: var(--theme-card-bg, #1a1a1a); color: var(--theme-text, var(--color-text))"
 			role="menu"
 			aria-label={m.language_label()}
 			transition:fly={{ y: -6, duration: accessibility.reducedMotion ? 0 : 150 }}
